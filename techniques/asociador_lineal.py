@@ -9,17 +9,18 @@ def get_key(my_dict, val):
  
     return "No existe esa clave"
 
-def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, hasIndex=None, depurar=True):
+def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, hasIndex=None, mapear=True):
     """
         vectorProblema (list): Vector con los 'N' datos requeridos por la instancia elegida
         archivo (str): Nombre del archivo, con path(opcional)
         delimitador (str, opcional): Separador de los datos. ',' por defecto.
         hasHeader (int, opcional): Numero de fila que contiene el encabezado. 'None' por defecto
         hasIndex (int, opcional): Numero de columna que contiene el nombre de las filas. 'None' por defecto.
+        mapear (bool, opcional): Discretizar columnas flotantes y mapea datos strings. 'True' por defecto.
     """
     # Leemos los datos
     # Usando la nueva funcion del archivo "leer_dataset.py"
-    dfArchivo = lds.leer_archivo(archivo, delimitador, hasHeader, hasIndex, depurar)
+    dfArchivo = lds.mapear_dataset(archivo, delimitador, hasHeader, hasIndex, mapear)
 
 
 
@@ -30,7 +31,7 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
         datos.append(list(dfArchivo.iloc[i])[:-1])    
         clases.append(dfArchivo.iloc[i,-1])
         clasesSet.add(dfArchivo.iloc[i, -1])
-        print(datos[i])
+        #print(datos[i])
 
     # Identificamos las clases
     clasesDic = {}
@@ -47,7 +48,7 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
         clasesCifradas.append(a)
         # print(datos[i], clasesCifradas[i], get_key(clasesDic, clasesDic[clases[i]]))
 
-    print("\n")
+    
     # Operaciones de matrices con los datos y clases cifrados
     # con ayuda de numpy
     X = np.array(datos)
@@ -62,6 +63,7 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
 
     vectorClase = W.dot(vectorProblema)
 
+    print("\n")
     indiceClase = list(vectorClase).index(max(vectorClase))
     decisionClase = get_key(clasesDic, indiceClase)
     print("Caso: ",vectorProblema)

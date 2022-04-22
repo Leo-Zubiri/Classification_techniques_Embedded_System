@@ -1,15 +1,13 @@
 import pandas as pd
 
-# ! Falta depurar el vector problema
 
-
-def leer_archivo(archivo, delimitador=',', hasHeader=None, hasIndex=None, depurar = True):
+def mapear_dataset(archivo, delimitador=',', hasHeader=None, hasIndex=None, mapear = True):
     """
         archivo (str): Nombre del archivo, con path(opcional)
         delimitador (str, opcional): Separador de los datos. ',' por defecto.
         hasHeader (int, opcional): Numero de fila que contiene el encabezado. 'None' por defecto
         hasIndex (int, opcional): Numero de columna que contiene el nombre de las filas. 'None' por defecto.
-        depurar (bool, opcional): Discretizar columnas flotantes y strings. 'True' por defecto.
+        mapear (bool, opcional): Discretizar columnas flotantes y mapea datos strings. 'True' por defecto.
     """
     # Leemos los datos
     dfArchivo = pd.read_csv(archivo, 
@@ -17,36 +15,34 @@ def leer_archivo(archivo, delimitador=',', hasHeader=None, hasIndex=None, depura
         header=hasHeader, 
         index_col=hasIndex)
     
-    if(not depurar):
+    if(not mapear):
         return dfArchivo
 
     tipos = dfArchivo.dtypes
 
     #for i, colName in enumerate(tipos)-1:
-    for i in range(len(tipos)-1):    
-        if(tipos[i] == "float64"):        
-            columna = dfArchivo[i].to_list()
+    for i, head in enumerate(tipos.index):
+        if(tipos[head] == "float64"):        
+            columna = dfArchivo[head].to_list()
             intervalos = get_intervalos(columna)
             newColumna = discretizador_ewb(columna, intervalos)
-            dfArchivo[i] = newColumna
+            dfArchivo[head] = newColumna
             
-        elif(tipos[i] == "object"):                
-            columna = dfArchivo[i].to_list()
+        elif(tipos[head] == "object"):                
+            columna = dfArchivo[head].to_list()
             newColumna = discretizador_str(columna)
-            dfArchivo[i] = newColumna
-            #print(dfArchivo[i])
-            #print(dfArchivo.iloc[,i])
+            dfArchivo[head] = newColumna
         
     return dfArchivo
 
 
 def get_intervalos(datos):
     datosSet = set(datos)
-    l = len(datosSet)
-    intervalos = int((l**0.5))
+    intervalos = len(datosSet)    
     while(intervalos > 16):
-        intervalos = int((l**0.5))
+        intervalos = int((intervalos**0.5))
     return intervalos
+
 
 def discretizador_ewb(datos, intervalos):
     """
@@ -95,5 +91,5 @@ def discretizador_str(datos):
 
 
 
-# archivo = "../instances/Instancia_iris.csv"
-# leer_archivo(archivo)
+# archivo = "../instances/Instancia_wine.csv"
+# print(leer_archivo(archivo))
