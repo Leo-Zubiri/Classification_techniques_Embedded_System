@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import leer_dataset as lds
 
 def get_key(my_dict, val):
     for key, value in my_dict.items():
@@ -8,7 +9,7 @@ def get_key(my_dict, val):
  
     return "No existe esa clave"
 
-def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, hasIndex=None):
+def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, hasIndex=None, depurar=True):
     """
         vectorProblema (list): Vector con los 'N' datos requeridos por la instancia elegida
         archivo (str): Nombre del archivo, con path(opcional)
@@ -17,10 +18,10 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
         hasIndex (int, opcional): Numero de columna que contiene el nombre de las filas. 'None' por defecto.
     """
     # Leemos los datos
-    dfArchivo = pd.read_csv(archivo, 
-        delimiter=delimitador, 
-        header=hasHeader, 
-        index_col=hasIndex)
+    # Usando la nueva funcion del archivo "leer_dataset.py"
+    dfArchivo = lds.leer_archivo(archivo, delimitador, hasHeader, hasIndex, depurar)
+
+
 
     datos, clases, clasesSet = [], [], set()
 
@@ -29,7 +30,7 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
         datos.append(list(dfArchivo.iloc[i])[:-1])    
         clases.append(dfArchivo.iloc[i,-1])
         clasesSet.add(dfArchivo.iloc[i, -1])
-        # print(datos[i])
+        print(datos[i])
 
     # Identificamos las clases
     clasesDic = {}
@@ -69,14 +70,15 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
     return(decisionClase)
     
 
-vectorProblema = [56, 78, 90, 71, 47, 68]
-archivo = "instances/Instancia_clase.csv"
+# vectorProblema = [56, 78, 90, 71, 47, 68]
+# archivo = "instances/Instancia_clase.csv"
 
 #vectorProblema = [3, 2, 3, 1, 1, 2, 3, 1, 5]
 #archivo = "instances/Instancia_cancer.csv"
 
-# vectorProblema = [5, 3, 5, 0.3]
-# archivo = "instances\Instancia_iris.csv"
+vectorProblema = [5, 3, 5, 0.3]
+archivo = "instances\Instancia_iris.csv"
+#archivo = "../instances/Instancia_iris.csv"
 
 # vectorProblema = [12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623]
 # archivo = "instances\Instancia_wine.csv"
