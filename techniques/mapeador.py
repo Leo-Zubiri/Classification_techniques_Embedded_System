@@ -60,6 +60,17 @@ def mapear_dataset(dfArchivo, mapFloat=True, mapStr=True):
     return dfAC, discretizador
 
 
+def separar_cc(dfArchivo):
+    caract = dfArchivo.iloc[:, :-1].values.tolist()
+    clase = []
+    for i in range(len(dfArchivo)):
+        c = dfArchivo.iloc[i,-1]
+        clase.append(c)
+
+    matriz_cc = list(zip(caract, clase))
+    return matriz_cc
+    
+
 def get_intervalos(columna):
     columnaSet = set(columna)
     intervalos = len(columnaSet)    
