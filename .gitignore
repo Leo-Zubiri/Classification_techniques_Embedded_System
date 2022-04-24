@@ -1,6 +1,7 @@
 # Ignore these directories
 **/.vscode/
 **/__pychache__/
+__pychache__
 
 # Ignore these files
 # With **/ ignoring from every directory

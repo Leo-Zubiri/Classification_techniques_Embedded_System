@@ -13,82 +13,77 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton#btnIdentificar{
+	color: white;
+	border-width: 1px;
+	border-radius: 8px;
+	border-color:  #17bebb;
+	border-style: outset;
+	background-color: #17bebb;
+}
+
+QPushButton#btnIdentificar:pressed{
+	border-color: #0e7c7b;
+    border-style: inset;
+	background-color: #0e7c7b;
+}
+
+QComboBox {
+    border: 1px solid gray;
+	border-radius: 8px;
+}
+
+/* QComboBox gets the &quot;on&quot; state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: #0e7c7b;
+	color: white;
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+	background:red;
+	color: white;
+}
+
+QComboBox::drop-down {
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 8px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 8px;
+}
+
+QComboBox::down-arrow {
+    /*image: url(/usr/share/icons/crystalsvg/16x16/actions/1downarrow.png);*/
+	image:url(./src/img/search.svg);
+	width: 12px;
+	height: 12px;
+
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+	image:url(./src/img/search_w.svg);
+	width: 12px;
+	height: 12px;
+}
+
+QLineEdit{
+	border: 1px solid gray;
+	border-radius: 8px;
+}
+
+QLineEdit:read-only{
+	border-color: darkgray;
+	background: #ccdbdc;
+}
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btnArduino">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>190</y>
-      <width>71</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>src/img/arduino-logo.png</normaloff>src/img/arduino-logo.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>50</width>
-      <height>50</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="cbInstancia">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>140</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>110</y>
-      <width>161</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>MS UI Gothic</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: #3186a0</string>
-    </property>
-    <property name="text">
-     <string>INSTANCIA</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="cbTecnica">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>140</y>
-      <width>161</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>110</y>
+      <y>130</y>
       <width>161</width>
       <height>21</height>
      </rect>
@@ -111,11 +106,131 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLineEdit" name="instancia_ard">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>330</y>
+      <width>301</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIdentificar">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>400</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="accessibleName">
+     <string/>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>IDENTIFICAR</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>290</y>
+      <width>291</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS UI Gothic</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #3186a0</string>
+    </property>
+    <property name="text">
+     <string>INSTANCIA ARDUINO:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbInstancia">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="editable">
+     <bool>false</bool>
+    </property>
+    <property name="currentText">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cbTecnica">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>160</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS UI Gothic</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #3186a0</string>
+    </property>
+    <property name="text">
+     <string>INSTANCIA</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
+      <y>40</y>
       <width>371</width>
       <height>61</height>
      </rect>
@@ -139,76 +254,33 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QPushButton" name="btnArduino">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>270</y>
-      <width>291</width>
-      <height>31</height>
+      <x>170</x>
+      <y>210</y>
+      <width>71</width>
+      <height>71</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>MS UI Gothic</family>
-      <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #3186a0</string>
+     <string notr="true">border-radius: 1px</string>
     </property>
     <property name="text">
-     <string>INSTANCIA ARDUINO:</string>
+     <string/>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
+    <property name="icon">
+     <iconset>
+      <normaloff>src/img/arduino-logo.png</normaloff>src/img/arduino-logo.png</iconset>
     </property>
-   </widget>
-   <widget class="QLineEdit" name="instancia_ard">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>310</y>
-      <width>301</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnIdentificar">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>360</y>
-      <width>131</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI</family>
-      <pointsize>10</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>IDENTIFICAR</string>
+    <property name="iconSize">
+     <size>
+      <width>50</width>
+      <height>50</height>
+     </size>
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>414</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

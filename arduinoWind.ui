@@ -17,7 +17,33 @@
    <string>Arduino Connection</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font-familly: &quot;MS UI Gothic&quot;</string>
+   <string notr="true">QPushButton{
+	color: white;
+	border-width: 1px;
+	border-radius: 8px;
+	border-color:  #17bebb;
+	border-style: outset;
+	background-color: #17bebb;
+}
+
+QPushButton:pressed{
+	border-color: #0e7c7b;
+    border-style: inset;
+	background-color: #0e7c7b;
+}
+
+
+QLineEdit{
+	border: 1px solid gray;
+	border-radius: 8px;
+}
+
+QLineEdit:read-only{
+	border-color: darkgray;
+	background: #ccdbdc;
+}
+
+font-familly: &quot;MS UI Gothic&quot;;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label_3">
@@ -137,6 +163,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
      <item>
@@ -164,7 +193,7 @@
      <x>0</x>
      <y>0</y>
      <width>427</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
