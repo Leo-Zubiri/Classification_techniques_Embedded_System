@@ -44,8 +44,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #     #Instanciamos un objeto de la clase marduino
     #     self.arduino = ard.c_arduino()
 
-    #     self.timer = QtCore.QTimer()
-    #     self.timer.timeout.connect(self.execTimer)
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.execTimer)
+        self.timer.start(10)
     #     self.teclado = Controller()
         
 
@@ -120,11 +121,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #         self.timer.stop()
 
     # # Timer para el Python
-    # def execTimer(self):
-    #     if self.arduino.inWaiting():
-    #         lectura = self.arduino.read()
-    #         lectura = lectura.replace("\n", "")
-    #         lectura = lectura.replace("\r", "")
+    def execTimer(self):
+        lect = self.ardWindow.getLectura();
+        self.instancia_ard.setText(lect)
 
     # def agregar(self):
     #     dato = self.txt_arduino.text()
@@ -134,7 +133,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def closeEvent(self, event):
-        self.arduino.disconnect()
+        self.ardWindow.close()
         if self.timer.isActive():
             self.timer.stop()
         sys.exit(self.ardApp.exec_())

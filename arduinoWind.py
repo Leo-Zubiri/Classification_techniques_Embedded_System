@@ -40,18 +40,22 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.txt_com.setEnabled(False)
             self.txt_arduino.setEnabled(True)
             #self.txt_arduino.setFocus()            
-            self.beginRead()
+            #self.beginRead()
+            self.timer.start(10)
+        else:
+            self.timer.stop()
 
     def beginRead(self):
-        if self.arduino == None:
-            # Inicializar Conexion con Arduino
-            self.conectar()
-            print("Arduino Conectado")
-
         if not self.timer.isActive():
             self.timer.start(10)
         else:
             self.timer.stop()
+
+    def getLectura(self):
+        if self.arduino.verifyConnection():
+            return self.lectura
+        else:
+            return "Desconectado"
 
     # Timer para el Python
     def execTimer(self):
@@ -62,7 +66,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.txt_arduino.setText(self.lectura);
             #print(self.lectura)
 
-    def closeEvent(self, event):
+    def close(self):
         self.arduino.disconnect()
         if self.timer.isActive():
             self.timer.stop()
