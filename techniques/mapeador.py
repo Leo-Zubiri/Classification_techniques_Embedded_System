@@ -2,7 +2,9 @@ import pandas as pd
 
 
 def leer_dataset(archivo, delimitador=',', hasHeader=None, hasIndex=None):
-    """
+    """ Leer archivo/instancia con ayuda de pandas
+
+    Args:
         archivo (str): Nombre del archivo, con path(opcional) a leer
         delimitador (str, opcional): Separador de los datos. ',' por defecto.
         hasHeader (int, opcional): Numero de fila que contiene el encabezado. 'None' por defecto
@@ -21,7 +23,9 @@ def leer_dataset(archivo, delimitador=',', hasHeader=None, hasIndex=None):
 
 
 def mapear_dataset(dfArchivo, mapFloat=True, mapStr=True):
-    """    
+    """ Discretizar valores de la instancia
+
+    Args   
         dfArchivo (pandas.DataFrame): DataFrame con la informacion del archivo
         mapFloat (bool, opcional): Mapear columnas float. 'True' por defecto
         mapStr (bool, opcional): Mapear columnas string. 'True' por defecto
@@ -61,6 +65,14 @@ def mapear_dataset(dfArchivo, mapFloat=True, mapStr=True):
 
 
 def separar_cc(dfArchivo):
+    """ Separar caracteristicas y clases de nuestra instancia
+
+    Args:
+        dfArchivo (pandas.DataFrame): Dataset de la instancia leida.
+
+    Returns:
+        [([caract], clase), ([caract], clase), ([caract], clase)...]
+    """
     caract = dfArchivo.iloc[:, :-1].values.tolist()
     clase = []
     for i in range(len(dfArchivo)):
@@ -80,10 +92,6 @@ def get_intervalos(columna):
 
 
 def discretizador_ewb(columna, intervalos):
-    """
-        columna (list): Columna con datos float a discretizar
-        intervalos (int): Entero que marca la cantidad de intervalos a discretizar
-    """
     v_min, v_max= min(columna), max(columna), 
     v_width = round((v_max-v_min)/intervalos, 4)
     
@@ -122,6 +130,17 @@ def discretizador_str(columna):
 
 
 def discretizar_vp(vp, discretizador, dtipos):
+    """Discretizar vector problema/caso leido
+
+    Args:
+        vp (list): Lista con los valores del vector problema
+        discretizador (list[dic]): Lista de diccionarios, que es retornado de la funcion "mapear_dataset"
+        dtipos (pandas.Series (dtypes)): Objeto con los tipos de datos de las columnas 
+                (obtenido del DataFrame original de la instancia leida)
+
+    Returns:
+        list: Vector Problema discretizado
+    """
     vpDiscretizado = []
     for d in range(len(dtipos)-1):        
         if(dtipos.iloc[d] == "float64"):
@@ -143,11 +162,18 @@ def discretizar_vp(vp, discretizador, dtipos):
 
 
 def get_key(my_dict, val):
+    """ Obtener la key del diccionario en base al valor
+
+    Args:
+        my_dict (dicc {}): Diccionario completo
+        val (every_val): Valor a buscar en el diccionario
+
+    Returns:
+        key: Llave del valor
+    """
     for key, value in my_dict.items():
          if val == value:
              return key
  
     return "No existe esa clave"
 
-# archivo = "../instances/Instancia_wine.csv"
-# print(leer_archivo(archivo))
