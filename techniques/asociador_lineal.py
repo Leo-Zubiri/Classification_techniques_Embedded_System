@@ -1,36 +1,23 @@
 import pandas as pd
 import numpy as np
-import leer_dataset as lds
+import mapeador as lsd
 
-def get_key(my_dict, val):
-    for key, value in my_dict.items():
-         if val == value:
-             return key
- 
-    return "No existe esa clave"
-
-def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, hasIndex=None, mapear=True):
+def asociador_lineal(vectorP, dfDataset):#, archivo, delimitador=',', hasHeader=None, hasIndex=None, mapear=True):
     """
-        vectorProblema (list): Vector con los 'N' datos requeridos por la instancia elegida
-        archivo (str): Nombre del archivo, con path(opcional)
-        delimitador (str, opcional): Separador de los datos. ',' por defecto.
-        hasHeader (int, opcional): Numero de fila que contiene el encabezado. 'None' por defecto
-        hasIndex (int, opcional): Numero de columna que contiene el nombre de las filas. 'None' por defecto.
-        mapear (bool, opcional): Discretizar columnas flotantes y mapea datos strings. 'True' por defecto.
+        vectorP (list): Vector con los 'N' datos requeridos por la instancia elegida.
+        dfDataset (pandas.DataFrame): Dataset del archivo elegido.
     """
     # Leemos los datos
-    # Usando la nueva funcion del archivo "leer_dataset.py"
-    dfArchivo = lds.mapear_dataset(archivo, delimitador, hasHeader, hasIndex, mapear)
-
-
+    # Usando la nueva funcion del archivo "leer_dataset.py"    
+    #dfDataset = lsd.mapear_dataset(archivo, delimitador, hasHeader, hasIndex, mapear)
 
     datos, clases, clasesSet = [], [], set()
 
     # Separamos los datos de las clases
-    for i in range(len(dfArchivo)):
-        datos.append(list(dfArchivo.iloc[i])[:-1])    
-        clases.append(dfArchivo.iloc[i,-1])
-        clasesSet.add(dfArchivo.iloc[i, -1])
+    for i in range(len(dfDataset)):
+        datos.append(list(dfDataset.iloc[i])[:-1])    
+        clases.append(dfDataset.iloc[i,-1])
+        clasesSet.add(dfDataset.iloc[i, -1])
         #print(datos[i])
 
     # Identificamos las clases
@@ -61,28 +48,27 @@ def asociador_lineal(vectorProblema, archivo, delimitador=',', hasHeader=None, h
 
     W = Y.dot(Xpseudo)
 
-    vectorClase = W.dot(vectorProblema)
-
-    print("\n")
+    vectorClase = W.dot(vectorP)
+    
     indiceClase = list(vectorClase).index(max(vectorClase))
-    decisionClase = get_key(clasesDic, indiceClase)
-    print("Caso: ",vectorProblema)
+    decisionClase = lsd.get_key(clasesDic, indiceClase)
+    print("Caso: ",vectorP)
     print("Clase: ",decisionClase)        
     
     return(decisionClase)
     
 
-# vectorProblema = [56, 78, 90, 71, 47, 68]
+# vectorP = [56, 78, 90, 71, 47, 68]
 # archivo = "instances/Instancia_clase.csv"
 
-#vectorProblema = [3, 2, 3, 1, 1, 2, 3, 1, 5]
+#vectorP = [3, 2, 3, 1, 1, 2, 3, 1, 5]
 #archivo = "instances/Instancia_cancer.csv"
 
-vectorProblema = [5, 3, 5, 0.3]
-archivo = "instances\Instancia_iris.csv"
-#archivo = "../instances/Instancia_iris.csv"
+# vectorP = [5, 3, 5, 0.3]
+# archivo = "instances\Instancia_iris.csv"
+# #archivo = "../instances/Instancia_iris.csv"
 
-# vectorProblema = [12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623]
-# archivo = "instances\Instancia_wine.csv"
+# # vectorP = [12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623]
+# # archivo = "instances\Instancia_wine.csv"
 
-asociador_lineal(vectorProblema, archivo)
+# asociador_lineal(vectorP, archivo)

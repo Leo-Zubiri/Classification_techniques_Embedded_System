@@ -1,0 +1,7 @@
+# Ignore these directories
+.vscode/
+__pychache__/
+
+# Ignore these files
+tempCodeRunnerFile.py
+
