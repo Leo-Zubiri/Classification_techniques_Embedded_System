@@ -1,13 +1,14 @@
-
 from techniques.Medidas_Similitud import Euclidiana,Euclidiana_norm,Manhattan,Jaccard,Coseno,Sorence_Dice,Canberra
 from statistics import multimode
 
 
 metricas = [Manhattan,Euclidiana,Euclidiana_norm,Jaccard,Coseno,Sorence_Dice, Canberra]
 
-def KNN(K,test,training,met=6):
+def KNN(test,training):
     ###DEFINIR EL VALOR DE "K"  - Un número entre 1 y el total de registros de la instancia (entrenamiento)
     
+    met = 6 #Canberra
+    K = 5
 
     if met==3 or met==4 or met==5:
         rev = True
@@ -48,27 +49,27 @@ def KNN(K,test,training,met=6):
             #print(registro)
             temporalK.append(registro[1]) #obtencion de la etiqueta
 
-        #print("Clases de los vectores más cercanos al registro NC:")
-        #print(temporalK)  #los primeros K vectores
-        #print("\n\n")
+        print("Clases de los vectores más cercanos al registro NC:")
+        print(temporalK)  #los primeros K vectores
+        
   
         moda = multimode(temporalK)
         respKnn = moda[0]  # si existe más de una moda se queda con la primera de ellas  
 
-        #print("Clase asignada por el KNN: "  + str(respKnn))
+        print("Clase asignada por el KNN: "  + str(respKnn))
         #print("Clase Real: " + str(registroNC[1]))
 
-        if str(respKnn) == str(registroNC[1]):
-            contAciertos += 1
+        # if str(respKnn) == str(registroNC[1]):
+        #     contAciertos += 1
 
 
-    rend = contAciertos/len(prueba)*100
+    #rend = contAciertos/len(prueba)*100
     # print("\nK = ",K)
     # print("Total de aciertos: " + str(contAciertos))
     # print("Total de pruebas: " + str(len(prueba)))
     # print("Rendimiento: " + str(rend))
 
-    data = [K,rend,contAciertos]
+    #data = [K,rend,contAciertos]
 
     #for el in ordenado:
     #W    print(el)

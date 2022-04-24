@@ -2,9 +2,14 @@ import math
 import random
 
 #60/40      70/30       80/20       90/10
-split_types = [.60, .70, .80, .90] 
+#split_types = [.60, .70, .80, .90] 
+split_types = [.70] 
 
-file = open("Instancia_wine.csv")
+archivo = "instances\\Instancia_iris.csv"
+trainFileName = "training\\iris_training"+".csv"
+testFileName = "test\\iris_test"+".csv"
+
+file = open(archivo)
 content_file = file.readlines()
 
 tot_files = len(content_file)
@@ -15,14 +20,10 @@ print("Count: ", tot_files)
 backup = []
 backup.extend(content_file)
 print(backup[0])
-# Creo que puedes... poner la otra diagonal asi solita sin problemas '/'
-# La otra vez se puso mamonsito y no agarraba por eso me voy a lo seguro
-# LEL, yo siempre lo hago con la otra :V che piton 
-# yayaya entendi el codigo
 
 for i in range(len(split_types)):
-    training = open("PracticaClase\\wine_training"+ str(split_types[i]*100) +".csv", "w")
-    test = open("PracticaClase\\wine_test"+ str(split_types[i]*100) +".csv", "w")
+    training = open(trainFileName, "w")
+    test = open(testFileName, "w")
     
     random.shuffle(content_file)
     print(backup[0])
