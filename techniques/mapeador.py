@@ -38,16 +38,16 @@ def mapear_dataset(dfArchivo, mapFloat=True, mapStr=True):
     tipos = dfAC.dtypes
     discretizador = {}
 
-    #for i, colName in enumerate(tipos)-1:
-    for i, head in enumerate(tipos.index):
-        if(mapFloat and tipos[head] == "float64"):        
+    for i in range(tipos.shape[0] - 1):
+        head = tipos.index[i]
+        if(mapFloat and tipos[i] == "float64"):        
             columna = dfAC[head].to_list()
             intervalos = get_intervalos(columna)
             newColumna, discret = discretizador_ewb(columna, intervalos)            
             dfAC[head] = newColumna
             discretizador[i] = discret
             
-        elif(mapStr and tipos[head] == "object"):                
+        elif(mapStr and tipos[i] == "object"):                
             columna = dfAC[head].to_list()
             newColumna, discret = discretizador_str(columna)
             dfAC[head] = newColumna
@@ -176,4 +176,17 @@ def get_key(my_dict, val):
              return key
  
     return "No existe esa clave"
+
+
+def crear_archivo(dataframe, ruta, nombre, extension=".csv"):
+    lista = []
+
+    for i in range(len(dataframe)):
+       lista.append(list(dataframe.iloc[i]))
+
+    archivo = ruta + nombre+ extension
+    pd.DataFrame(lista).to_csv(archivo, header=None, index=None)
+    print("Arhivo '{}' creado con exito!".format(archivo))
+
+
 
