@@ -1,15 +1,36 @@
 import json
  
-nombreJSON = 'settings.json'
-file = open('settings.json', 'r')
-data = json.load(file)
-file.close()
+# nombreJSON = 'settings.json'
+# file = open('settings.json', 'r')
+# data = json.load(file)
+# file.close()
 
-instancias = data['instancias']
-tecnicas = data['tecnicas']
+# instancias = data['instancias']
+# tecnicas = data['tecnicas']
 
-print(instancias)
-print(tecnicas)
+# print(instancias)
+# print(tecnicas)
+
+# nombreJSON = 'config.json'
+# file = open(nombreJSON, 'r')
+# data = json.load(file)
+# file.close()
+
+# instancias = data['instancias']
+# tecnicas = data['tecnicas']
+
+# #print(instancias)
+
+# key_instancias = list(instancias.keys())
+# print(key_instancias)
+# a = key_instancias[1]
+# print(eval(instancias[a]["hasHeader"]))
 
 
+
+a = 0
+b = "None"
+
+compile(a)
+compile(b)
 

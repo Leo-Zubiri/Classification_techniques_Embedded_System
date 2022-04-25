@@ -1,0 +1,37 @@
+{   
+    "instancias":{
+        "Cancer" : {
+            "Archivo":"training/cancer_training.csv",
+            "Delimitador":",",
+            "hasHeader":"0",
+            "hasIndex":"None"
+        },
+
+        "Iris" : {
+            "Archivo":"training/iris_training.csv",
+            "Delimitador":",",
+            "hasHeader":"None",
+            "hasIndex":"None"
+        },
+
+        "Wine" : {
+            "Archivo":"training/wine_training.csv",
+            "Delimitador":",",
+            "hasHeader":"None",
+            "hasIndex":"None"
+        },
+
+        "Clase" : {
+            "Archivo":"training/clase_training.csv",
+            "Delimitador":",",
+            "hasHeader":"None",
+            "hasIndex":"None"
+        }
+    },
+    
+    "tecnicas": {
+        "KNN": "KNN",
+        "Naive Bayes":"naibay",
+        "Asociador Lineal":"asolin"        
+    }
+}

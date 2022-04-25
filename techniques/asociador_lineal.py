@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import mapeador as lsd
+#import mapeador as lsd
+import techniques.mapeador as lsd
 
 def asociador_lineal(vectorP, dfDataset):#, archivo, delimitador=',', hasHeader=None, hasIndex=None, mapear=True):
     """

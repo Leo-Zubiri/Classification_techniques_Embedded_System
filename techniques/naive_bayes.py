@@ -1,5 +1,6 @@
 import pandas as pd
-import mapeador as lsd
+#import mapeador as lsd
+import techniques.mapeador as lsd
 import copy
 
 def naive_bayes(vectorP, dfDataset):    
