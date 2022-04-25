@@ -40,14 +40,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.instancia_ard.setText("3, 2, 3, 1, 1, 2, 3, 1, 5") # DE YOCHUA
 
         # # Esto a mi no me funciono, me daba error (atte Yochua en Linux :v)
-        # # New Window
-        # self.ardApp  = QtWidgets.QApplication(sys.argv)
-        # self.ardWindow = ard.MyApp()
+        # New Window
+        self.ardApp  = QtWidgets.QApplication(sys.argv)
+        self.ardWindow = ard.MyApp()
        
-        # self.timer = QtCore.QTimer()
-        # self.timer.timeout.connect(self.execTimer)
-        # self.timer.start(10)
-    #     self.teclado = Controller()
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.execTimer)
+        self.timer.start(10)
 
 
     def read_yeison(self):
@@ -96,9 +95,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def identificar(self):
         print("\n----- {} -----".format(self.tecnica))
         text = (self.instancia_ard.text())
-        vp = list(map(int, text.split(',')))                
+        vp = list(map(int, text.split(',')))            
         vpMap = self.mapearVP(vp)
-
+        print("Mapeo chido")
         func = "{}({},{})".format(
             "eval(self.funcion)", "vpMap", "self.dfDsMap")             
         decision = eval(func)
@@ -106,25 +105,52 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def mapearVP(self, vpArduino):
+        print("\nvp INO:      ",vpArduino)
         mins = self.dfDataset.min().to_list()
         maxs = self.dfDataset.max().to_list()
         
         vp = list(map(lambda x, y, z: round(x*(z-y)/1023+y, 4), vpArduino, mins, maxs ))
+        print("vp INO map:  ",vp)
+        
         
         dtipos = self.dfDataset.dtypes
         vpMap = mapea.discretizar_vp(vp, self.discretizador, dtipos)
-        print("\nvp INO:      ",vpArduino)
-        print("vp INO map:  ",vp)
         print("vp mapeado:  ",vpMap)
         print()       
         
         return vpMap
 
 
-    # # Timer para el Python
-    # def execTimer(self):
-    #     lect = self.ardWindow.getLectura();
-    #     self.instancia_ard.setText(lect)
+    # Timer para el Python
+    def execTimer(self):
+        
+        lect = self.ardWindow.getLectura()
+        if(lect == "Desconectado"):
+            self.instancia_ard.setText(lect)
+            return
+        else:
+            l = self.dfDataset.shape[1] - 1
+            # lect = lect.split(",")
+            
+            # if len(lect) >= l:
+                # v = [int(x) for x in lect]
+                # v = v[:l]
+                # lect = str(v)
+                # l = len(lect)
+                # lect = lect[1:l-1]
+                # vp = self.mapearVP(v)
+
+            if(len >= l):
+                v = list(map(int,lect.split(",")))[:l]
+                lect = str(v)
+                l = len(lect) - 1 
+                lect = lect[1:l]
+                vp = self.mapearVP(v)
+
+
+            #print("Es aqui",lect)
+            self.instancia_ard.setText(str(lect))
+            self.instancia_ard_2.setText(str(vp))      
 
     # Estos dos... el primero no se que era xd, y el segundo me daba error al cerrar la ventana xddd
     # def agregar(self):
@@ -134,11 +160,11 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #     self.txt_arduino.setFocus() 
 
 
-    # def closeEvent(self, event):
-    #     self.ardWindow.close()
-    #     if self.timer.isActive():
-    #         self.timer.stop()
-    #     sys.exit(self.ardApp.exec_())
+    def closeEvent(self, event):
+        self.ardWindow.close()
+        if self.timer.isActive():
+            self.timer.stop()
+        sys.exit(self.ardApp.exec_())
 
 
 if __name__ == "__main__":

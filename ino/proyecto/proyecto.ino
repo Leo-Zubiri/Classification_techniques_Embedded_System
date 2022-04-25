@@ -16,10 +16,10 @@ void loop() {
   // put your main code here, to run repeatedly:
   lectura = "";
 
-  for(i=0; i< 8;i++){
-    lectura+= String(analogRead(ptms[i]))+" ";
+  for(i=0; i< 7;i++){
+    lectura+= String(analogRead(ptms[i]))+",";
   }
-
+  lectura+= String(analogRead(ptms[i]));
   Serial.println(lectura);
 
   delay(200);
