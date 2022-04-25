@@ -23,15 +23,15 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.btnArduino.clicked.connect(self.conectar)
         self.btnIdentificar.clicked.connect(self.identificar)
         
-        self.instancias, self.tecnicas, self.keyInst = self.read_yeison()
-        self.key = 0
-        self.instancia = self.instancias[self.keyInst[self.key]]                 
+        self.instancias, self.tecnicas, self.keyInst = self.read_yeison() 
+        self.key = 0         
+        self.instancia = self.instancias[self.keyInst[self.key]]                       
 
         archivo, delim, head, index = list(self.instancia.values())       
         self.dfDataset = mapea.leer_dataset(archivo, delim, eval(head), eval(index))      
         self.dfDsMap, self.discretizador = mapea.mapear_dataset(self.dfDataset)           
-
-        self.tecnica = list(self.tecnicas.items())[self.key][0]   
+        
+        self.tecnica = list(self.tecnicas.items())[0][0]   
         self.funcion = self.tecnicas[self.tecnica]
         
         self.cbInstancia.currentIndexChanged.connect(self.setInstancia)
@@ -44,9 +44,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.ardApp  = QtWidgets.QApplication(sys.argv)
         # self.ardWindow = ard.MyApp()
        
-        #self.timer = QtCore.QTimer()
-        #self.timer.timeout.connect(self.execTimer)
-        #self.timer.start(10)
+        # self.timer = QtCore.QTimer()
+        # self.timer.timeout.connect(self.execTimer)
+        # self.timer.start(10)
     #     self.teclado = Controller()
 
 
@@ -89,27 +89,42 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         
     def setTecnica(self):        
         index = self.cbTecnica.currentIndex()
-        text = str(self.cbTecnica.itemText(index))
-        self.funcion = self.tecnicas[text]        
+        self.tecnica = str(self.cbTecnica.itemText(index))
+        self.funcion = self.tecnicas[self.tecnica]
 
 
     def identificar(self):
+        print("\n----- {} -----".format(self.tecnica))
         text = (self.instancia_ard.text())
-        vp = list(map(float, text.split(',')))        
-        dtipos = self.dfDataset.dtypes
-        vpMap = mapea.discretizar_vp(vp, self.discretizador, dtipos)  
-                
+        vp = list(map(int, text.split(',')))                
+        vpMap = self.mapearVP(vp)
+
         func = "{}({},{})".format(
             "eval(self.funcion)", "vpMap", "self.dfDsMap")             
         decision = eval(func)
         print(decision)
-    
+
+
+    def mapearVP(self, vpArduino):
+        mins = self.dfDataset.min().to_list()
+        maxs = self.dfDataset.max().to_list()
+        
+        vp = list(map(lambda x, y, z: round(x*(z-y)/1023+y, 4), vpArduino, mins, maxs ))
+        
+        dtipos = self.dfDataset.dtypes
+        vpMap = mapea.discretizar_vp(vp, self.discretizador, dtipos)
+        print("\nvp INO:      ",vpArduino)
+        print("vp INO map:  ",vp)
+        print("vp mapeado:  ",vpMap)
+        print()       
+        
+        return vpMap
+
 
     # # Timer para el Python
-    def execTimer(self):
-        lect = self.ardWindow.getLectura();
-        self.instancia_ard.setText(lect)
-
+    # def execTimer(self):
+    #     lect = self.ardWindow.getLectura();
+    #     self.instancia_ard.setText(lect)
 
     # Estos dos... el primero no se que era xd, y el segundo me daba error al cerrar la ventana xddd
     # def agregar(self):

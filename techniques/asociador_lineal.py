@@ -11,7 +11,7 @@ def asociador_lineal(vectorP, dfDataset):#, archivo, delimitador=',', hasHeader=
     # Leemos los datos
     # Usando la nueva funcion del archivo "leer_dataset.py"    
     #dfDataset = lsd.mapear_dataset(archivo, delimitador, hasHeader, hasIndex, mapear)
-
+    #print("\n----- Asociador Lineal -----")
     datos, clases, clasesSet = [], [], set()
 
     # Separamos los datos de las clases
@@ -52,7 +52,7 @@ def asociador_lineal(vectorP, dfDataset):#, archivo, delimitador=',', hasHeader=
     vectorClase = W.dot(vectorP)
     
     indiceClase = list(vectorClase).index(max(vectorClase))
-    decisionClase = lsd.get_key(clasesDic, indiceClase)
+    decisionClase = lsd.get_key(clasesDic, indiceClase)    
     print("Caso: ",vectorP)
     print("Clase: ",decisionClase)        
     

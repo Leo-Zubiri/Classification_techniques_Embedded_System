@@ -3,7 +3,8 @@ import pandas as pd
 import techniques.mapeador as lsd
 import copy
 
-def naive_bayes(vectorP, dfDataset):    
+def naive_bayes(vectorP, dfDataset):  
+    #print("\n----- Naive Bayes -----")
     totalCasos = len(dfDataset)
     vector_conj, vector_dic = [], []
 

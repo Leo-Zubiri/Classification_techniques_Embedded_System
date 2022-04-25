@@ -156,7 +156,8 @@ def discretizar_vp(vp, discretizador, dtipos):
             vpDiscretizado.append(diccionario[vp[d]])            
 
         else:
-            vpDiscretizado.append(vp[d])
+            #vpDiscretizado.append(vp[d])
+            vpDiscretizado.append(int(vp[d]))
     
     return(vpDiscretizado)
 
