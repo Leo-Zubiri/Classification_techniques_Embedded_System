@@ -37,7 +37,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.cbInstancia.currentIndexChanged.connect(self.setInstancia)
         self.cbTecnica.currentIndexChanged.connect(self.setTecnica)
 
-        self.instancia_ard.setText("3, 2, 3, 1, 1, 2, 3, 1, 5")
+        # self.instancia_ard.setText("3, 2, 3, 1, 1, 2, 3, 1, 5") # DE YOCHUA
 
         # # Esto a mi no me funciono, me daba error (atte Yochua en Linux :v)
         # # New Window
@@ -78,13 +78,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dfDsMap, self.discretizador = mapea.mapear_dataset(self.dfDataset) 
         print(self.dfDataset, "\n") 
 
-        a = [
-            "3, 2, 3, 1, 1, 2, 3, 1, 5",
-            "5.7, 3.2, 3, 1.7",
-            "12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623",
-            "56, 78, 90, 71, 47, 68"
-        ]
-        self.instancia_ard.setText(a[self.key])
+        # a = [
+        #     "3, 2, 3, 1, 1, 2, 3, 1, 5",
+        #     "5.7, 3.2, 3, 1.7",
+        #     "12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623",
+        #     "56, 78, 90, 71, 47, 68"
+        # ]
+        # self.instancia_ard.setText(a[self.key])
 
         
     def setTecnica(self):        
