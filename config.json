@@ -1,12 +1,5 @@
 {   
     "instancias":{
-        "Cancer" : {
-            "Archivo":"training/cancer_training.csv",
-            "Delimitador":",",
-            "hasHeader":"0",
-            "hasIndex":"None"
-        },
-
         "Iris" : {
             "Archivo":"training/iris_training.csv",
             "Delimitador":",",
@@ -26,12 +19,19 @@
             "Delimitador":",",
             "hasHeader":"None",
             "hasIndex":"None"
+        },
+
+        "Cancer" : {
+            "Archivo":"training/cancer_training.csv",
+            "Delimitador":",",
+            "hasHeader":"0",
+            "hasIndex":"None"
         }
     },
     
     "tecnicas": {
-        "KNN": "KNN",
         "Naive Bayes":"naibay",
-        "Asociador Lineal":"asolin"        
+        "Asociador Lineal":"asolin",
+        "KNN": "knn"     
     }
 }

@@ -38,7 +38,7 @@ def mapear_dataset(dfArchivo, mapFloat=True, mapStr=True):
     tipos = dfAC.dtypes
     discretizador = {}
 
-    for i in range(tipos.shape[0] - 1):
+    for i in range(tipos.shape[0]):
         head = tipos.index[i]
         if(mapFloat and tipos[i] == "float64"):        
             columna = dfAC[head].to_list()

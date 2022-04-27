@@ -4,7 +4,7 @@ from PyQt5 import uic, QtWidgets, QtCore
 import pandas as pd
 # Modulo/clase arduino
 import arduinoWind as ard
-from techniques.KNN import KNN
+from techniques.knn_2 import knn as knn
 from techniques.asociador_lineal import asociador_lineal as asolin
 from techniques.naive_bayes import naive_bayes as naibay
 import techniques.mapeador as mapea
@@ -37,9 +37,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.cbInstancia.currentIndexChanged.connect(self.setInstancia)
         self.cbTecnica.currentIndexChanged.connect(self.setTecnica)
 
-        # self.instancia_ard.setText("3, 2, 3, 1, 1, 2, 3, 1, 5") # DE YOCHUA
-
-        # # Esto a mi no me funciono, me daba error (atte Yochua en Linux :v)
         # New Window
         self.ardApp  = QtWidgets.QApplication(sys.argv)
         self.ardWindow = ard.MyApp()
@@ -77,14 +74,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dfDsMap, self.discretizador = mapea.mapear_dataset(self.dfDataset) 
         print(self.dfDataset, "\n") 
 
-        # a = [
-        #     "3, 2, 3, 1, 1, 2, 3, 1, 5",
-        #     "5.7, 3.2, 3, 1.7",
-        #     "12, 1, 2.5, 22, 110, 3.1, 3, 0.32, 1.18, 7.69, 0.50, 2.22, 623",
-        #     "56, 78, 90, 71, 47, 68"
-        # ]
-        # self.instancia_ard.setText(a[self.key])
-
         
     def setTecnica(self):        
         index = self.cbTecnica.currentIndex()
@@ -97,60 +86,57 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         text = (self.instancia_ard.text())
         vp = list(map(int, text.split(',')))            
         vpMap = self.mapearVP(vp)
-        print("Mapeo chido")
         func = "{}({},{})".format(
             "eval(self.funcion)", "vpMap", "self.dfDsMap")             
         decision = eval(func)
-        print(decision)
-
+        lon = len(self.discretizador) - 1
+        decisionKey = mapea.get_key(self.discretizador[lon], decision)
+        print("Decision: ", decisionKey)
+        print()
+        
+        # ! ------------------------------------------
+        # ! ------------------------------------------
+        # Se envia el dato "decision" al arduino
+        # ! ------------------------------------------
+        # ! ------------------------------------------
+        
 
     def mapearVP(self, vpArduino):
-        print("\nvp INO:      ",vpArduino)
+        #print("\nvp INO:      ",vpArduino)
         mins = self.dfDataset.min().to_list()
         maxs = self.dfDataset.max().to_list()
         
         vp = list(map(lambda x, y, z: round(x*(z-y)/1023+y, 4), vpArduino, mins, maxs ))
-        print("vp INO map:  ",vp)
+        #print("vp INO map:  ",vp)
         
         
         dtipos = self.dfDataset.dtypes
         vpMap = mapea.discretizar_vp(vp, self.discretizador, dtipos)
-        print("vp mapeado:  ",vpMap)
-        print()       
+        #print("vp mapeado:  ",vpMap)
+        #print()       
         
         return vpMap
 
 
     # Timer para el Python
     def execTimer(self):
-        
         lect = self.ardWindow.getLectura()
+        
         if(lect == "Desconectado"):
             self.instancia_ard.setText(lect)
             return
         else:
-            l = self.dfDataset.shape[1] - 1
-            # lect = lect.split(",")
-            
-            # if len(lect) >= l:
-                # v = [int(x) for x in lect]
-                # v = v[:l]
-                # lect = str(v)
-                # l = len(lect)
-                # lect = lect[1:l-1]
-                # vp = self.mapearVP(v)
-
-            if(len >= l):
-                v = list(map(int,lect.split(",")))[:l]
-                lect = str(v)
-                l = len(lect) - 1 
-                lect = lect[1:l]
-                vp = self.mapearVP(v)
-
+            lon = self.dfDataset.shape[1] - 1
+            lect = lect.split(",")
+            vp, vLect = [], []
+            if len(lect) >= lon:
+                vLect = [int(x) for x in lect]
+                vLect = vLect[:lon]               
+                vp = self.mapearVP(vLect)
 
             #print("Es aqui",lect)
-            self.instancia_ard.setText(str(lect))
-            self.instancia_ard_2.setText(str(vp))      
+            self.instancia_ard.setText(self.listToStr(vLect))
+            self.instancia_ard_2.setText(self.listToStr(vp))      
 
     # Estos dos... el primero no se que era xd, y el segundo me daba error al cerrar la ventana xddd
     # def agregar(self):
@@ -158,6 +144,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #     self.list_datos.addItem(dato)        
     #     self.txt_arduino.setText("")
     #     self.txt_arduino.setFocus() 
+
+
+    def listToStr(self, lista):
+        listaString = str(lista)
+        lon = len(listaString)
+        cadena = str(listaString[1: lon-1])
+        return cadena
 
 
     def closeEvent(self, event):
